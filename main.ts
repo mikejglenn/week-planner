@@ -1,3 +1,9 @@
+interface FormElement extends HTMLFormControlsCollection {
+  time: HTMLInputElement;
+  day: HTMLInputElement;
+  event: HTMLInputElement;
+}
+
 const $addEventButton = document.querySelector('#add-event');
 if (!$addEventButton) throw new Error('$addEventButton query failed');
 
@@ -20,4 +26,18 @@ $cancelButton.addEventListener('click', () => {
 
 $confirmButton.addEventListener('click', () => {
   $dialog.close();
+});
+
+const $formDialog = document.querySelector('form');
+if (!$formDialog) throw new Error('$formDialog query failed');
+
+$formDialog.addEventListener('submit', (event: Event) => {
+  event.preventDefault();
+  const formElements = $formDialog.elements as FormElement;
+  const formObject = {
+    time: formElements.time.value,
+    day: formElements.day.value,
+    event: formElements.event.value,
+  };
+  console.log(formObject);
 });

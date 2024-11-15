@@ -15,3 +15,15 @@ $cancelButton.addEventListener('click', function () {
 $confirmButton.addEventListener('click', function () {
   $dialog.close();
 });
+var $formDialog = document.querySelector('form');
+if (!$formDialog) throw new Error('$formDialog query failed');
+$formDialog.addEventListener('submit', function (event) {
+  event.preventDefault();
+  var formElements = $formDialog.elements;
+  var formObject = {
+    time: formElements.time.value,
+    day: formElements.day.value,
+    event: formElements.event.value,
+  };
+  console.log(formObject);
+});
