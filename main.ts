@@ -52,8 +52,6 @@ if (!$tBody) throw new Error('$tBody query failed');
 const $dayWeek = document.querySelector('#day-of-week');
 if (!$dayWeek) throw new Error('$dayWeek query failed');
 
-
-
 $addEventButton.addEventListener('click', () => {
   $dialog.showModal();
 });
@@ -68,12 +66,11 @@ $confirmButton.addEventListener('click', () => {
 
 let daySelected = 'monday';
 $dayWeek.addEventListener('change', (event: Event) => {
-const $eventTarget = event.target as HTMLSelectElement;
-daySelected = $eventTarget.selectedOptions.item.
-//////////////////////////////////////////////////////
-})
-
-
+  const $eventTarget = event.target as HTMLSelectElement;
+  daySelected = $eventTarget.options[$eventTarget.selectedIndex].value;
+  console.log(daySelected);
+  renderTbody();
+});
 
 $formDialog.addEventListener('submit', (event: Event) => {
   event.preventDefault();
@@ -98,18 +95,21 @@ function renderTbody(): void {
   console.log('checking for idiocracy:', dataObject);
   let i = 0;
   for (i = 0; i < dataObject.entries.length; i++) {
-    const $tr = document.createElement('tr');
-    const $tdTime = document.createElement('td');
-    $tdTime.textContent = dataObject.entries[i].time;
-    const $tdInfo = document.createElement('td');
-    $tdInfo.textContent = dataObject.entries[i].info;
-    const $tdActions = document.createElement('td');
-    $tdActions.textContent = dataObject.entries[i].info;
-    $tdActions.textContent = '';
-    $tr.appendChild($tdTime);
-    $tr.appendChild($tdInfo);
-    $tr.appendChild($tdActions);
-    $tBody.prepend($tr);
+    console.log(daySelected, dataObject.entries[i].day);
+    if (daySelected === dataObject.entries[i].day) {
+      const $tr = document.createElement('tr');
+      const $tdTime = document.createElement('td');
+      $tdTime.textContent = dataObject.entries[i].time;
+      const $tdInfo = document.createElement('td');
+      $tdInfo.textContent = dataObject.entries[i].info;
+      const $tdActions = document.createElement('td');
+      $tdActions.textContent = dataObject.entries[i].info;
+      $tdActions.textContent = '';
+      $tr.appendChild($tdTime);
+      $tr.appendChild($tdInfo);
+      $tr.appendChild($tdActions);
+      $tBody.prepend($tr);
+    }
   }
   for (i = 10 - i; i < 12; i++) {
     const $tr = document.createElement('tr');
