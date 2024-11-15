@@ -14,9 +14,21 @@ interface Data {
   entries: DialogEntry[];
 }
 
-const dataObject: Data = {
-  entries: [],
-};
+const dataObject: Data = readEvents();
+
+function writeEvents(): void {
+  const eventsJson: string = JSON.stringify(dataObject);
+  localStorage.setItem('events-storage', eventsJson);
+}
+
+function readEvents(): Data {
+  const eventsJson = localStorage.getItem('events-storage');
+  if (eventsJson) {
+    return JSON.parse(eventsJson);
+  } else {
+    return { entries: [] };
+  }
+}
 
 const $addEventButton = document.querySelector('#add-event');
 if (!$addEventButton) throw new Error('$addEventButton query failed');
@@ -59,6 +71,11 @@ $formDialog.addEventListener('submit', (event: Event) => {
     info: formElements.info.value,
   };
   dataObject.entries.push(formObject);
+  writeEvents();
+  renderTbody();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
   renderTbody();
 });
 
@@ -71,7 +88,7 @@ function renderTbody(): void {
     const $tdInfo = document.createElement('td');
     $tdInfo.textContent = dataObject.entries[i].info;
     const $tdActions = document.createElement('td');
-    // $tdActions.textContent = dataObject.entries[i].info;
+    $tdActions.textContent = dataObject.entries[i].info;
     $tdActions.textContent = '';
     $tr.appendChild($tdTime);
     $tr.appendChild($tdInfo);

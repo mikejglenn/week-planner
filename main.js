@@ -1,6 +1,16 @@
-var dataObject = {
-  entries: [],
-};
+var dataObject = readEvents();
+function writeEvents() {
+  var eventsJson = JSON.stringify(dataObject);
+  localStorage.setItem('events-storage', eventsJson);
+}
+function readEvents() {
+  var eventsJson = localStorage.getItem('events-storage');
+  if (eventsJson) {
+    return JSON.parse(eventsJson);
+  } else {
+    return { entries: [] };
+  }
+}
 var $addEventButton = document.querySelector('#add-event');
 if (!$addEventButton) throw new Error('$addEventButton query failed');
 var $dialog = document.querySelector('dialog');
@@ -33,6 +43,10 @@ $formDialog.addEventListener('submit', function (event) {
     info: formElements.info.value,
   };
   dataObject.entries.push(formObject);
+  writeEvents();
+  renderTbody();
+});
+document.addEventListener('DOMContentLoaded', function () {
   renderTbody();
 });
 function renderTbody() {
@@ -44,7 +58,7 @@ function renderTbody() {
     var $tdInfo = document.createElement('td');
     $tdInfo.textContent = dataObject.entries[i].info;
     var $tdActions = document.createElement('td');
-    // $tdActions.textContent = dataObject.entries[i].info;
+    $tdActions.textContent = dataObject.entries[i].info;
     $tdActions.textContent = '';
     $tr.appendChild($tdTime);
     $tr.appendChild($tdInfo);
