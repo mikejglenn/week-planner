@@ -9,6 +9,7 @@ body {
 
 .container {
   margin: 0 auto;
+  max-width: 900px;
 }
 
 .row {
@@ -17,5 +18,27 @@ body {
 }
 
 table {
-  border: 1px solid black;
+  border: 1px solid #f5f5f5;
+  width: 100%;
+}
+
+td {
+  height: 2rem;
+}
+
+select {
+  margin-bottom: 2rem;
+}
+
+button {
+  margin-bottom: 2rem;
+}
+
+tbody tr:nth-child(odd) {
+  /* background-color: #f5f5f5; */
+  background-color: rgb(248, 204, 210);
+}
+
+footer {
+  margin-top: 4rem;
 }
