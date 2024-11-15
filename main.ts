@@ -49,6 +49,11 @@ console.log($formDialog);
 const $tBody = document.querySelector('tbody');
 if (!$tBody) throw new Error('$tBody query failed');
 
+const $dayWeek = document.querySelector('#day-of-week');
+if (!$dayWeek) throw new Error('$dayWeek query failed');
+
+
+
 $addEventButton.addEventListener('click', () => {
   $dialog.showModal();
 });
@@ -60,6 +65,15 @@ $cancelButton.addEventListener('click', () => {
 $confirmButton.addEventListener('click', () => {
   $dialog.close();
 });
+
+let daySelected = 'monday';
+$dayWeek.addEventListener('change', (event: Event) => {
+const $eventTarget = event.target as HTMLSelectElement;
+daySelected = $eventTarget.selectedOptions.item.
+//////////////////////////////////////////////////////
+})
+
+
 
 $formDialog.addEventListener('submit', (event: Event) => {
   event.preventDefault();
@@ -80,9 +94,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function renderTbody(): void {
+  $tBody.innerHTML = '';
   console.log('checking for idiocracy:', dataObject);
-  const $tr = document.createElement('tr');
-  for (let i = 0; i < dataObject.entries.length; i++) {
+  let i = 0;
+  for (i = 0; i < dataObject.entries.length; i++) {
+    const $tr = document.createElement('tr');
     const $tdTime = document.createElement('td');
     $tdTime.textContent = dataObject.entries[i].time;
     const $tdInfo = document.createElement('td');
@@ -93,6 +109,20 @@ function renderTbody(): void {
     $tr.appendChild($tdTime);
     $tr.appendChild($tdInfo);
     $tr.appendChild($tdActions);
+    $tBody.prepend($tr);
   }
-  $tBody.prepend($tr);
+  for (i = 10 - i; i < 12; i++) {
+    const $tr = document.createElement('tr');
+    const $tdTime = document.createElement('td');
+    $tdTime.textContent = '';
+    const $tdInfo = document.createElement('td');
+    $tdInfo.textContent = '';
+    const $tdActions = document.createElement('td');
+    $tdActions.textContent = '';
+    $tdActions.textContent = '';
+    $tr.appendChild($tdTime);
+    $tr.appendChild($tdInfo);
+    $tr.appendChild($tdActions);
+    $tBody.append($tr);
+  }
 }

@@ -99,7 +99,7 @@
     <dialog>
       <form>
         <label for="time-of-event">Time of Event:</label>
-        <select id="time-of-event" name="time">
+        <select required id="time-of-event" name="time">
           <option value="0000">0000</option>
           <option value="0100">0100</option>
           <option value="0200">0200</option>
@@ -127,7 +127,7 @@
           <option value="2400">2400</option>
         </select>
         <label for="dialog-day-of-week">Day of Week:</label>
-        <select id="dialog-day-of-week" name="day">
+        <select required id="dialog-day-of-week" name="day">
           <option value="monday">Monday</option>
           <option value="tuesday">Tuesday</option>
           <option value="wednesday">Wednesday</option>
@@ -137,7 +137,7 @@
           <option value="sunday">Sunday</option>
         </select>
         <label for="event-info">Event Information:</label>
-        <textarea name="info" id="event-info"></textarea>
+        <textarea required name="info" id="event-info"></textarea>
         <button type="button" class="cancel-button">Cancel</button>
         <button type="submit" class="confirm-button">Confirm</button>
       </form>
