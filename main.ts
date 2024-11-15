@@ -1,8 +1,22 @@
 interface FormElement extends HTMLFormControlsCollection {
   time: HTMLInputElement;
   day: HTMLInputElement;
-  event: HTMLInputElement;
+  info: HTMLInputElement;
 }
+
+interface DialogEntry {
+  time: string;
+  day: string;
+  info: string;
+}
+
+interface Data {
+  entries: DialogEntry[];
+}
+
+const dataObject: Data = {
+  entries: [],
+};
 
 const $addEventButton = document.querySelector('#add-event');
 if (!$addEventButton) throw new Error('$addEventButton query failed');
@@ -34,10 +48,10 @@ if (!$formDialog) throw new Error('$formDialog query failed');
 $formDialog.addEventListener('submit', (event: Event) => {
   event.preventDefault();
   const formElements = $formDialog.elements as FormElement;
-  const formObject = {
+  const formObject: DialogEntry = {
     time: formElements.time.value,
     day: formElements.day.value,
-    event: formElements.event.value,
+    info: formElements.info.value,
   };
-  console.log(formObject);
+  dataObject.entries.push(formObject);
 });
