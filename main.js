@@ -9,6 +9,11 @@ var $cancelButton = document.querySelector('.cancel-button');
 if (!$cancelButton) throw new Error('$cancelButton query failed');
 var $confirmButton = document.querySelector('.confirm-button');
 if (!$confirmButton) throw new Error('$confirmButton query failed');
+var $formDialog = document.querySelector('form');
+if (!$formDialog) throw new Error('$formDialog query failed');
+console.log($formDialog);
+var $tBody = document.querySelector('tbody');
+if (!$tBody) throw new Error('$tBody query failed');
 $addEventButton.addEventListener('click', function () {
   $dialog.showModal();
 });
@@ -18,10 +23,9 @@ $cancelButton.addEventListener('click', function () {
 $confirmButton.addEventListener('click', function () {
   $dialog.close();
 });
-var $formDialog = document.querySelector('form');
-if (!$formDialog) throw new Error('$formDialog query failed');
 $formDialog.addEventListener('submit', function (event) {
   event.preventDefault();
+  console.log('checking for idiocracy:', $formDialog);
   var formElements = $formDialog.elements;
   var formObject = {
     time: formElements.time.value,
@@ -29,18 +33,22 @@ $formDialog.addEventListener('submit', function (event) {
     info: formElements.info.value,
   };
   dataObject.entries.push(formObject);
-  renderEntry(dataObject.entries[0]);
+  renderTbody();
 });
-function renderEntry(dialogEntry) {
-  // const $tr1 = document.querySelector('tbody tr');
+function renderTbody() {
+  console.log('checking for idiocracy:', dataObject);
   var $tr = document.createElement('tr');
-  var $tdTime = document.createElement('td');
-  $tdTime.textContent = dialogEntry.time;
-  var $tdInfo = document.createElement('td');
-  $tdInfo.textContent = dialogEntry.info;
-  var $tdActions = document.createElement('td');
-  $tdActions.textContent = '';
-  $tr.appendChild($tdTime);
-  $tr.appendChild($tdInfo);
-  $tr.appendChild($tdActions);
+  for (var i = 0; i < dataObject.entries.length; i++) {
+    var $tdTime = document.createElement('td');
+    $tdTime.textContent = dataObject.entries[i].time;
+    var $tdInfo = document.createElement('td');
+    $tdInfo.textContent = dataObject.entries[i].info;
+    var $tdActions = document.createElement('td');
+    // $tdActions.textContent = dataObject.entries[i].info;
+    $tdActions.textContent = '';
+    $tr.appendChild($tdTime);
+    $tr.appendChild($tdInfo);
+    $tr.appendChild($tdActions);
+  }
+  $tBody.prepend($tr);
 }
