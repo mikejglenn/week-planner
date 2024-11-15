@@ -54,4 +54,20 @@ $formDialog.addEventListener('submit', (event: Event) => {
     info: formElements.info.value,
   };
   dataObject.entries.push(formObject);
+  renderEntry(dataObject.entries[0]);
 });
+
+function renderEntry(dialogEntry: DialogEntry): void {
+  // const $tr1 = document.querySelector('tbody tr');
+  const $tr = document.createElement('tr');
+  const $tdTime = document.createElement('td');
+  $tdTime.textContent = dialogEntry.time;
+  const $tdInfo = document.createElement('td');
+  $tdInfo.textContent = dialogEntry.info;
+  const $tdActions = document.createElement('td');
+  $tdActions.textContent = '';
+
+  $tr.appendChild($tdTime);
+  $tr.appendChild($tdInfo);
+  $tr.appendChild($tdActions);
+}
