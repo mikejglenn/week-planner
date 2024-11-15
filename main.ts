@@ -8,10 +8,12 @@ interface DialogEntry {
   time: string;
   day: string;
   info: string;
+  id: number;
 }
 
 interface Data {
   entries: DialogEntry[];
+  nextEntryId: number;
 }
 
 const dataObject: Data = readEvents();
@@ -26,7 +28,7 @@ function readEvents(): Data {
   if (eventsJson) {
     return JSON.parse(eventsJson);
   } else {
-    return { entries: [] };
+    return { entries: [], nextEntryId: 1 };
   }
 }
 
@@ -80,8 +82,10 @@ $formDialog.addEventListener('submit', (event: Event) => {
     time: formElements.time.value,
     day: formElements.day.value,
     info: formElements.info.value,
+    id: dataObject.nextEntryId,
   };
   dataObject.entries.push(formObject);
+  dataObject.nextEntryId++;
   writeEvents();
   renderTbody();
 });
@@ -98,6 +102,7 @@ function renderTbody(): void {
     console.log(daySelected, dataObject.entries[i].day);
     if (daySelected === dataObject.entries[i].day) {
       const $tr = document.createElement('tr');
+      $tr.setAttribute('data-entry-id', String(dataObject.entries[i].id));
       const $tdTime = document.createElement('td');
       $tdTime.textContent = dataObject.entries[i].time;
       const $tdInfo = document.createElement('td');
@@ -105,10 +110,33 @@ function renderTbody(): void {
       const $tdActions = document.createElement('td');
       $tdActions.textContent = dataObject.entries[i].info;
       $tdActions.textContent = '';
+
+      const $editButton = document.createElement('button');
+      $editButton.className = 'edit-button';
+      $editButton.textContent = 'EDIT';
+      $tdActions.appendChild($editButton);
+
+      const $deleteButton = document.createElement('button');
+      $deleteButton.setAttribute('class', 'delete-button');
+      $deleteButton.textContent = 'DELETE';
+      $tdActions.appendChild($deleteButton);
+
       $tr.appendChild($tdTime);
       $tr.appendChild($tdInfo);
       $tr.appendChild($tdActions);
       $tBody.prepend($tr);
+
+      $editButton.addEventListener('click', () => {
+        $dialog.showModal();
+        const $eventTarget = event.target as HTMLElement;
+        for (i = 0; i < dataObject.entries.length; i++) {
+          const $findTr = $eventTarget.closest('tr');
+          const $closestId = $findTr.getAttribute('data-entry-id');
+          if (dataObject.entries[i].id === Number($closestId)) {
+            // dataObject.entries[i] = dataObject.nextEntryId,
+          }
+        }
+      });
     }
   }
   for (i = 10 - i; i < 12; i++) {

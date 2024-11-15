@@ -44,3 +44,18 @@ tbody tr:nth-child(odd) {
 footer {
   margin-top: 4rem;
 }
+
+.edit-button {
+  display: inline;
+  background-color: blue;
+  color: white;
+  padding: 10px;
+  border-radius: 20%;
+}
+
+.delete-button {
+  background-color: red;
+  color: white;
+  padding: 10px;
+  border-radius: 20%;
+}
