@@ -126,7 +126,7 @@ function renderTbody(): void {
       $tr.appendChild($tdActions);
       $tBody.prepend($tr);
 
-      $editButton.addEventListener('click', () => {
+      $editButton.addEventListener('click', (event: Event) => {
         $dialog.showModal();
         const $eventTarget = event.target as HTMLElement;
         for (i = 0; i < dataObject.entries.length; i++) {
@@ -139,7 +139,7 @@ function renderTbody(): void {
       });
     }
   }
-  for (i = 10 - i; i < 12; i++) {
+  for (let j = i; j < 10; j++) {
     const $tr = document.createElement('tr');
     const $tdTime = document.createElement('td');
     $tdTime.textContent = '';
